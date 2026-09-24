@@ -1,10 +1,13 @@
 const express = require("express");
 const pool = require("./bd/conexion")
+const notebooksRouter = require("./rutas/notebooks")
 
 const app=express();
 const PORT =3000;
 
 app.use(express.json());
+
+app.use("/api/notebooks", notebooksRouter);
 
 async function probarConexion(){
     try {
