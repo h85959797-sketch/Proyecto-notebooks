@@ -1,6 +1,8 @@
 const express = require("express");
 const pool = require("./bd/conexion")
 const notebooksRouter = require("./rutas/notebooks")
+const loginRouter = require("./rutas/login")
+const cargadoresRouter = require("./rutas/cargadores")
 
 const app=express();
 const PORT =3000;
@@ -8,6 +10,8 @@ const PORT =3000;
 app.use(express.json());
 
 app.use("/api/notebooks", notebooksRouter);
+app.use("/api/login", loginRouter)
+app.use("/api/cargadores", cargadoresRouter)
 
 async function probarConexion(){
     try {
