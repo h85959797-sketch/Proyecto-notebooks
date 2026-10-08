@@ -18,9 +18,9 @@ AZUL_OSCURO = "#064A9B"
 AZUL = "#0875E1"
 AZUL_CLARO = "#2F8CF4"
 AZUL_MUY_CLARO = "#DCEEFF"
+
 BLANCO = "#FFFFFF"
 FONDO = "#EEF7FF"
-GRIS = "#5B6B7A"
 BORDE = "#9CCBFA"
 
 
@@ -30,20 +30,14 @@ BORDE = "#9CCBFA"
 
 def crear_notebooks(parent):
 
-    # --------------------------------------------------------
+    # ========================================================
     # FRAME PRINCIPAL
-    # --------------------------------------------------------
+    # ========================================================
 
     frame = tk.Frame(
         parent,
         bg=FONDO
     )
-
-    frame.pack(
-        fill="both",
-        expand=True
-    )
-
 
     # ========================================================
     # ESTILOS
@@ -84,74 +78,48 @@ def crear_notebooks(parent):
         ]
     )
 
-
     # ========================================================
-    # SIDEBAR
+    # CONTENIDO PRINCIPAL
     # ========================================================
 
-    sidebar = tk.Frame(
+    contenido = tk.Frame(
         frame,
-        bg=AZUL_OSCURO,
-        width=285
+        bg=FONDO
     )
 
-    sidebar.pack(
-        side="left",
-        fill="y"
+    contenido.pack(
+        fill="both",
+        expand=True,
+        padx=20,
+        pady=20
     )
-
-    sidebar.pack_propagate(False)
-
-
-    # --------------------------------------------------------
-    # LOGO / TÍTULO SIDEBAR
-    # --------------------------------------------------------
-
-    logo_frame = tk.Frame(
-        sidebar,
-        bg=AZUL_OSCURO
-    )
-
-    logo_frame.pack(
-        fill="x",
-        pady=(30, 25)
-    )
-
-    tk.Label(
-        logo_frame,
-        text="▣",
-        font=("Segoe UI", 42),
-        fg=BLANCO,
-        bg=AZUL_OSCURO
-    ).pack()
-
-    tk.Label(
-        logo_frame,
-        text="Gestión de\nNotebooks",
-        font=("Segoe UI", 20, "bold"),
-        fg=BLANCO,
-        bg=AZUL_OSCURO,
-        justify="center"
-    ).pack()
-
 
     # ========================================================
-    # FUNCIONES DEL FRONTEND
+    # FUNCIONES
     # ========================================================
 
     def limpiar_formulario():
 
         combo_marca.set("")
         combo_empresa.set("")
-        entry_serie.delete(0, tk.END)
+
+        entry_serie.delete(
+            0,
+            tk.END
+        )
+
         combo_estado.set("")
 
-        tree.selection_remove(tree.selection())
+        tree.selection_remove(
+            tree.selection()
+        )
 
+    # --------------------------------------------------------
+    # CARGAR NOTEBOOKS
+    # --------------------------------------------------------
 
     def cargar_notebooks():
 
-        # Limpiar tabla
         for item in tree.get_children():
             tree.delete(item)
 
@@ -163,6 +131,7 @@ def crear_notebooks(parent):
             )
 
             if respuesta.status_code != 200:
+
                 raise Exception(
                     f"Error HTTP {respuesta.status_code}"
                 )
@@ -174,7 +143,9 @@ def crear_notebooks(parent):
                 tree.insert(
                     "",
                     tk.END,
-                    iid=str(notebook["id_notebook"]),
+                    iid=str(
+                        notebook["id_notebook"]
+                    ),
                     values=(
                         notebook["marca"],
                         notebook["empresa"],
@@ -202,6 +173,9 @@ def crear_notebooks(parent):
                 f"No se pudieron cargar las notebooks.\n\n{error}"
             )
 
+    # --------------------------------------------------------
+    # SELECCIONAR NOTEBOOK
+    # --------------------------------------------------------
 
     def seleccionar_notebook(event=None):
 
@@ -220,8 +194,13 @@ def crear_notebooks(parent):
         if not valores:
             return
 
-        combo_marca.set(valores[0])
-        combo_empresa.set(valores[1])
+        combo_marca.set(
+            valores[0]
+        )
+
+        combo_empresa.set(
+            valores[1]
+        )
 
         entry_serie.delete(
             0,
@@ -233,8 +212,13 @@ def crear_notebooks(parent):
             valores[2]
         )
 
-        combo_estado.set(valores[3])
+        combo_estado.set(
+            valores[3]
+        )
 
+    # --------------------------------------------------------
+    # AGREGAR
+    # --------------------------------------------------------
 
     def agregar_notebook():
 
@@ -243,7 +227,12 @@ def crear_notebooks(parent):
         num_serie = entry_serie.get().strip()
         estado = combo_estado.get().strip()
 
-        if not marca or not empresa or not num_serie or not estado:
+        if (
+            not marca
+            or not empresa
+            or not num_serie
+            or not estado
+        ):
 
             messagebox.showwarning(
                 "Datos incompletos",
@@ -280,12 +269,17 @@ def crear_notebooks(parent):
             else:
 
                 try:
+
                     mensaje = respuesta.json().get(
                         "error",
                         "No se pudo agregar la notebook."
                     )
+
                 except:
-                    mensaje = "No se pudo agregar la notebook."
+
+                    mensaje = (
+                        "No se pudo agregar la notebook."
+                    )
 
                 messagebox.showerror(
                     "Error",
@@ -306,6 +300,9 @@ def crear_notebooks(parent):
                 str(error)
             )
 
+    # --------------------------------------------------------
+    # MODIFICAR
+    # --------------------------------------------------------
 
     def modificar_notebook():
 
@@ -327,7 +324,12 @@ def crear_notebooks(parent):
         num_serie = entry_serie.get().strip()
         estado = combo_estado.get().strip()
 
-        if not marca or not empresa or not num_serie or not estado:
+        if (
+            not marca
+            or not empresa
+            or not num_serie
+            or not estado
+        ):
 
             messagebox.showwarning(
                 "Datos incompletos",
@@ -364,12 +366,17 @@ def crear_notebooks(parent):
             else:
 
                 try:
+
                     mensaje = respuesta.json().get(
                         "error",
                         "No se pudo modificar la notebook."
                     )
+
                 except:
-                    mensaje = "No se pudo modificar la notebook."
+
+                    mensaje = (
+                        "No se pudo modificar la notebook."
+                    )
 
                 messagebox.showerror(
                     "Error",
@@ -390,6 +397,9 @@ def crear_notebooks(parent):
                 str(error)
             )
 
+    # --------------------------------------------------------
+    # ELIMINAR
+    # --------------------------------------------------------
 
     def eliminar_notebook():
 
@@ -434,12 +444,17 @@ def crear_notebooks(parent):
             else:
 
                 try:
+
                     mensaje = respuesta.json().get(
                         "error",
                         "No se pudo eliminar la notebook."
                     )
+
                 except:
-                    mensaje = "No se pudo eliminar la notebook."
+
+                    mensaje = (
+                        "No se pudo eliminar la notebook."
+                    )
 
                 messagebox.showerror(
                     "Error",
@@ -459,104 +474,6 @@ def crear_notebooks(parent):
                 "Error",
                 str(error)
             )
-
-
-    def mostrar_formulario():
-
-        combo_marca.focus_set()
-
-
-    def salir():
-
-        ventana = parent.winfo_toplevel()
-
-        ventana.destroy()
-
-
-    # ========================================================
-    # BOTONES DEL SIDEBAR
-    # ========================================================
-
-    def crear_boton_sidebar(
-        texto,
-        comando,
-        simbolo
-    ):
-
-        boton = tk.Button(
-            sidebar,
-            text=f"{simbolo}   {texto}",
-            command=comando,
-            anchor="w",
-            padx=25,
-            font=("Segoe UI", 12),
-            fg=BLANCO,
-            bg=AZUL_OSCURO,
-            activebackground=AZUL_CLARO,
-            activeforeground=BLANCO,
-            relief="flat",
-            bd=0,
-            cursor="hand2"
-        )
-
-        boton.pack(
-            fill="x",
-            padx=10,
-            pady=5,
-            ipady=12
-        )
-
-        return boton
-
-
-    crear_boton_sidebar(
-        "Inicio",
-        cargar_notebooks,
-        "⌂"
-    )
-
-    crear_boton_sidebar(
-        "Agregar Notebook",
-        mostrar_formulario,
-        "+"
-    )
-
-    crear_boton_sidebar(
-        "Editar Notebook",
-        modificar_notebook,
-        "✎"
-    )
-
-    crear_boton_sidebar(
-        "Eliminar Notebook",
-        eliminar_notebook,
-        "▣"
-    )
-
-    crear_boton_sidebar(
-        "Salir",
-        salir,
-        "⇥"
-    )
-
-
-    # ========================================================
-    # CONTENIDO PRINCIPAL
-    # ========================================================
-
-    contenido = tk.Frame(
-        frame,
-        bg=FONDO
-    )
-
-    contenido.pack(
-        side="left",
-        fill="both",
-        expand=True,
-        padx=20,
-        pady=20
-    )
-
 
     # ========================================================
     # ENCABEZADO
@@ -614,9 +531,8 @@ def crear_notebooks(parent):
         anchor="w"
     )
 
-
     # ========================================================
-    # PANEL DATOS
+    # PANEL DE DATOS
     # ========================================================
 
     panel_datos = tk.Frame(
@@ -631,27 +547,20 @@ def crear_notebooks(parent):
         pady=(0, 20)
     )
 
-
     # --------------------------------------------------------
-    # TÍTULO PANEL
+    # TÍTULO
     # --------------------------------------------------------
 
-    titulo_panel = tk.Label(
+    tk.Label(
         panel_datos,
         text="Datos de la Notebook",
         font=("Segoe UI", 15, "bold"),
         fg=BLANCO,
         bg=AZUL
-    )
-
-    titulo_panel.pack(
+    ).pack(
         fill="x",
-        anchor="w",
-        padx=0,
-        pady=0,
         ipady=10
     )
-
 
     # --------------------------------------------------------
     # FORMULARIO
@@ -668,16 +577,25 @@ def crear_notebooks(parent):
         pady=15
     )
 
+    formulario.columnconfigure(
+        0,
+        weight=1
+    )
 
-    # --------------------------------------------------------
-    # CONFIGURAR COLUMNAS
-    # --------------------------------------------------------
+    formulario.columnconfigure(
+        1,
+        weight=1
+    )
 
-    formulario.columnconfigure(0, weight=1)
-    formulario.columnconfigure(1, weight=1)
-    formulario.columnconfigure(2, weight=1)
-    formulario.columnconfigure(3, weight=1)
+    formulario.columnconfigure(
+        2,
+        weight=1
+    )
 
+    formulario.columnconfigure(
+        3,
+        weight=1
+    )
 
     # ========================================================
     # MARCA
@@ -718,7 +636,6 @@ def crear_notebooks(parent):
         pady=(5, 15)
     )
 
-
     # ========================================================
     # EMPRESA
     # ========================================================
@@ -758,7 +675,6 @@ def crear_notebooks(parent):
         pady=(5, 15)
     )
 
-
     # ========================================================
     # NÚMERO DE SERIE
     # ========================================================
@@ -792,7 +708,6 @@ def crear_notebooks(parent):
         pady=(5, 15),
         ipady=8
     )
-
 
     # ========================================================
     # ESTADO
@@ -830,7 +745,6 @@ def crear_notebooks(parent):
         pady=(5, 15)
     )
 
-
     # ========================================================
     # BOTONES
     # ========================================================
@@ -847,16 +761,14 @@ def crear_notebooks(parent):
         sticky="ew"
     )
 
-    botones.columnconfigure(0, weight=1)
-    botones.columnconfigure(1, weight=1)
-    botones.columnconfigure(2, weight=1)
-    botones.columnconfigure(3, weight=1)
+    for columna in range(4):
 
+        botones.columnconfigure(
+            columna,
+            weight=1
+        )
 
-    def boton_accion(
-        texto,
-        comando
-    ):
+    def boton_accion(texto, comando):
 
         return tk.Button(
             botones,
@@ -871,7 +783,6 @@ def crear_notebooks(parent):
             bd=0,
             cursor="hand2"
         )
-
 
     boton_accion(
         "＋  Agregar",
@@ -917,7 +828,6 @@ def crear_notebooks(parent):
         ipady=10
     )
 
-
     # ========================================================
     # LISTADO
     # ========================================================
@@ -934,9 +844,8 @@ def crear_notebooks(parent):
         expand=True
     )
 
-
     # --------------------------------------------------------
-    # TÍTULO
+    # TÍTULO LISTADO
     # --------------------------------------------------------
 
     tk.Label(
@@ -947,14 +856,12 @@ def crear_notebooks(parent):
         bg=AZUL
     ).pack(
         fill="x",
-        anchor="w",
         ipady=10
     )
 
-
-    # ========================================================
+    # --------------------------------------------------------
     # TABLA
-    # ========================================================
+    # --------------------------------------------------------
 
     tabla_frame = tk.Frame(
         panel_lista,
@@ -967,7 +874,6 @@ def crear_notebooks(parent):
         padx=18,
         pady=15
     )
-
 
     columnas = (
         "marca",
@@ -982,7 +888,6 @@ def crear_notebooks(parent):
         show="headings",
         selectmode="browse"
     )
-
 
     tree.heading(
         "marca",
@@ -1003,7 +908,6 @@ def crear_notebooks(parent):
         "estado",
         text="Estado"
     )
-
 
     tree.column(
         "marca",
@@ -1029,7 +933,6 @@ def crear_notebooks(parent):
         anchor="w"
     )
 
-
     scrollbar = ttk.Scrollbar(
         tabla_frame,
         orient="vertical",
@@ -1039,7 +942,6 @@ def crear_notebooks(parent):
     tree.configure(
         yscrollcommand=scrollbar.set
     )
-
 
     tree.pack(
         side="left",
@@ -1052,15 +954,13 @@ def crear_notebooks(parent):
         fill="y"
     )
 
-
     tree.bind(
         "<<TreeviewSelect>>",
         seleccionar_notebook
     )
 
-
     # ========================================================
-    # PIE DE TABLA
+    # PIE
     # ========================================================
 
     pie = tk.Frame(
@@ -1073,7 +973,6 @@ def crear_notebooks(parent):
         padx=18,
         pady=(0, 15)
     )
-
 
     label_total = tk.Label(
         pie,
@@ -1089,11 +988,14 @@ def crear_notebooks(parent):
         pady=10
     )
 
-
     # ========================================================
-    # CARGAR DATOS INICIALMENTE
+    # CARGAR DATOS
     # ========================================================
 
     cargar_notebooks()
+
+    # ========================================================
+    # RETORNAR FRAME
+    # ========================================================
 
     return frame
