@@ -1,5 +1,5 @@
 import tkinter as tk
-from frames.cargadores import crear_cargadores
+from frames.personas import crear_personas
 
 
 # ============================================================
@@ -27,15 +27,15 @@ def crear_inicio(parent):
         bg=FONDO
     )
 
-    def abrir_cargadores():
+    def abrir_personas():
         vent = tk.Toplevel(frame)
         vent.geometry("1000x650")
-        frame_cargadores=crear_cargadores(vent)
-        frame_cargadores.pack(
+        frame_personas=crear_personas(vent)
+        frame_personas.pack(
             fill="both",
             expand=True
         )
-    abrir_cargadores()
+    abrir_personas()
 
     # ========================================================
     # CONTENEDOR DE LA APLICACIÓN
