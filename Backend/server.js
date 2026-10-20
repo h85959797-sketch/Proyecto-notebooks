@@ -4,6 +4,8 @@ const notebooksRouter = require("./rutas/notebooks")
 const loginRouter = require("./rutas/login")
 const cargadoresRouter = require("./rutas/cargadores")
 const personasRouter = require("./rutas/personas")
+const prestamosydevolucionesRouter = require("./rutas/prestatomosydevoluciones")
+const usuariosRouter = require("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
 
 const app=express();
 const PORT =3000;
@@ -14,6 +16,7 @@ app.use("/api/notebooks", notebooksRouter);
 app.use("/api/login", loginRouter)
 app.use("/api/cargadores", cargadoresRouter)
 app.use("/api/personas", personasRouter)
+app.use("/api/prestamosydevoluciones", prestamosydevolucionesRouter)
 
 async function probarConexion(){
     try {

@@ -1,9 +1,14 @@
 import tkinter as tk
+
+# ============================================================
+# IMPORTAR LAS VISTAS
+# ============================================================
+
 from frames.personas import crear_personas
 from frames.notebooks import crear_notebooks
 from frames.cargadores import crear_cargadores
-from frames.prestamosydevoluciones import crear_prestamosydevoluciones
-from frames.usuario import crear_usuario
+from frames.prestamosydevoluciones import prestamosydevoluciones
+from frames.usuario import usuario
 
 
 # ============================================================
@@ -31,16 +36,6 @@ def crear_inicio(parent):
         bg=FONDO
     )
 
-    def abrir_personas():
-        vent = tk.Toplevel(frame)
-        vent.geometry("1000x650")
-        frame_personas=crear_personas(vent)
-        frame_personas.pack(
-            fill="both",
-            expand=True
-        )
-    abrir_personas()
-
     # ========================================================
     # CONTENEDOR DE LA APLICACIÓN
     # ========================================================
@@ -54,17 +49,7 @@ def crear_inicio(parent):
         fill="both",
         expand=True
     )
-   def mostrar_frame(funcion):
 
-       for widget in contenido.winfo_children():
-           widget.destroy()
-
-       nuevo_frame = funcion(contenido)
-
-       nuevo_frame.pack(
-           fill="both",
-           expand=True
-       )
     # ========================================================
     # MENÚ LATERAL
     # ========================================================
@@ -98,7 +83,20 @@ def crear_inicio(parent):
     )
 
     # ========================================================
-    # FUNCIONES DE NAVEGACIÓN
+    # LISTA DE BOTONES
+    # ========================================================
+
+    botones_menu = []
+
+    # ========================================================
+    # HISTORIAL DE NAVEGACIÓN
+    # ========================================================
+
+    historial = []
+    posicion_historial = [-1]
+
+    # ========================================================
+    # LIMPIAR CONTENIDO
     # ========================================================
 
     def limpiar_contenido():
@@ -106,28 +104,104 @@ def crear_inicio(parent):
         for widget in contenido.winfo_children():
             widget.destroy()
 
+    # ========================================================
+    # ACTUALIZAR BOTÓN SELECCIONADO
+    # ========================================================
+
     def actualizar_botones(boton_seleccionado):
 
         for boton in botones_menu:
-            boton.config(
-                bg=AZUL_SELECCIONADO
-                if boton == boton_seleccionado
-                else AZUL_OSCURO
-            )
 
-    def mostrar_pagina(funcion, boton=None):
+            if boton == boton_seleccionado:
 
+                boton.config(
+                    bg=AZUL_SELECCIONADO
+                )
+
+            else:
+
+                boton.config(
+                    bg=AZUL_OSCURO
+                )
+
+    # ========================================================
+    # MOSTRAR UNA VISTA
+    # ========================================================
+
+    def mostrar_pagina(funcion, boton=None, guardar_historial=True):
+
+        # Limpiar la vista actual
         limpiar_contenido()
 
-        nuevo_frame = funcion(contenido)
+        # Crear la nueva vista
+        nueva_vista = funcion(contenido)
 
-        nuevo_frame.pack(
+        # Mostrarla
+        nueva_vista.pack(
             fill="both",
             expand=True
         )
 
+        # Actualizar botón seleccionado
         if boton is not None:
             actualizar_botones(boton)
+
+        # Guardar navegación
+        if guardar_historial:
+
+            # Si estamos retrocediendo y luego elegimos
+            # una nueva página, eliminamos el historial futuro.
+            if posicion_historial[0] < len(historial) - 1:
+
+                del historial[
+                    posicion_historial[0] + 1:
+                ]
+
+            historial.append(
+                (funcion, boton)
+            )
+
+            posicion_historial[0] = len(historial) - 1
+
+    # ========================================================
+    # VOLVER ATRÁS
+    # ========================================================
+
+    def ir_atras():
+
+        if posicion_historial[0] > 0:
+
+            posicion_historial[0] -= 1
+
+            funcion, boton = historial[
+                posicion_historial[0]
+            ]
+
+            mostrar_pagina(
+                funcion,
+                boton,
+                guardar_historial=False
+            )
+
+    # ========================================================
+    # IR ADELANTE
+    # ========================================================
+
+    def ir_adelante():
+
+        if posicion_historial[0] < len(historial) - 1:
+
+            posicion_historial[0] += 1
+
+            funcion, boton = historial[
+                posicion_historial[0]
+            ]
+
+            mostrar_pagina(
+                funcion,
+                boton,
+                guardar_historial=False
+            )
 
     # ========================================================
     # ENCABEZADO DEL MENÚ
@@ -164,13 +238,7 @@ def crear_inicio(parent):
     ).pack()
 
     # ========================================================
-    # LISTA DE BOTONES
-    # ========================================================
-
-    botones_menu = []
-
-    # ========================================================
-    # CREAR BOTÓN
+    # CREAR BOTÓN DEL MENÚ
     # ========================================================
 
     def crear_boton_menu(icono, texto, comando):
@@ -209,7 +277,10 @@ def crear_inicio(parent):
     boton_inicio = crear_boton_menu(
         "⌂",
         "Inicio",
-        lambda: mostrar_pagina(crear_pagina_inicio, boton_inicio)
+        lambda: mostrar_pagina(
+            crear_pagina_inicio,
+            boton_inicio
+        )
     )
 
     # ========================================================
@@ -219,11 +290,14 @@ def crear_inicio(parent):
     boton_notebooks = crear_boton_menu(
         "▣",
         "Notebooks",
-        lambda: mostrar_pagina(crear_pagina_notebooks, boton_notebooks)
+        lambda: mostrar_pagina(
+            crear_pagina_notebooks,
+            boton_notebooks
+        )
     )
 
     # ========================================================
-    # BOTONES PROVISORIOS
+    # BOTÓN CARGADORES
     # ========================================================
 
     boton_cargadores = crear_boton_menu(
@@ -235,6 +309,10 @@ def crear_inicio(parent):
         )
     )
 
+    # ========================================================
+    # BOTÓN PERSONAS
+    # ========================================================
+
     boton_personas = crear_boton_menu(
         "👥",
         "Personas",
@@ -244,6 +322,10 @@ def crear_inicio(parent):
         )
     )
 
+    # ========================================================
+    # BOTÓN PRÉSTAMOS Y DEVOLUCIONES
+    # ========================================================
+
     boton_prestamos = crear_boton_menu(
         "↔",
         "Préstamos y devoluciones",
@@ -252,6 +334,10 @@ def crear_inicio(parent):
             boton_prestamos
         )
     )
+
+    # ========================================================
+    # BOTÓN USUARIO
+    # ========================================================
 
     boton_usuario = crear_boton_menu(
         "⚙",
@@ -293,9 +379,14 @@ def crear_inicio(parent):
 
     botones_inferiores.pack_propagate(False)
 
+    # --------------------------------------------------------
+    # BOTÓN ATRÁS
+    # --------------------------------------------------------
+
     tk.Button(
         botones_inferiores,
         text="<",
+        command=ir_atras,
         font=("Arial", 22, "bold"),
         bg=AZUL,
         fg="white",
@@ -303,16 +394,22 @@ def crear_inicio(parent):
         activeforeground="white",
         relief="raised",
         bd=2,
-        width=3
+        width=3,
+        cursor="hand2"
     ).pack(
         side="left",
         padx=(35, 8),
         pady=15
     )
 
+    # --------------------------------------------------------
+    # BOTÓN ADELANTE
+    # --------------------------------------------------------
+
     tk.Button(
         botones_inferiores,
         text=">",
+        command=ir_adelante,
         font=("Arial", 22, "bold"),
         bg=AZUL,
         fg="white",
@@ -320,7 +417,8 @@ def crear_inicio(parent):
         activeforeground="white",
         relief="raised",
         bd=2,
-        width=3
+        width=3,
+        cursor="hand2"
     ).pack(
         side="left",
         padx=8,
@@ -494,98 +592,39 @@ def crear_inicio(parent):
 
     def crear_pagina_notebooks(parent):
 
-        from frames.notebooks import crear_notebooks
-
         return crear_notebooks(parent)
 
     # ========================================================
-    # PÁGINAS PROVISORIAS
+    # PÁGINA CARGADORES
     # ========================================================
 
     def crear_pagina_cargadores(parent):
 
-        return crear_pagina_provisoria(
-            parent,
-            "🔌",
-            "Cargadores"
-        )
+        return crear_cargadores(parent)
+
+    # ========================================================
+    # PÁGINA PERSONAS
+    # ========================================================
 
     def crear_pagina_personas(parent):
 
-        return crear_pagina_provisoria(
-            parent,
-            "👥",
-            "Personas"
-        )
+        return crear_personas(parent)
+
+    # ========================================================
+    # PÁGINA PRÉSTAMOS Y DEVOLUCIONES
+    # ========================================================
 
     def crear_pagina_prestamos(parent):
 
-        return crear_pagina_provisoria(
-            parent,
-            "↔",
-            "Préstamos y devoluciones"
-        )
+        return prestamosydevoluciones(parent)
+
+    # ========================================================
+    # PÁGINA USUARIO
+    # ========================================================
 
     def crear_pagina_usuario(parent):
 
-        return crear_pagina_provisoria(
-            parent,
-            "⚙",
-            "Usuario"
-        )
-
-    def crear_pagina_provisoria(parent, icono, titulo):
-
-        pagina = tk.Frame(
-            parent,
-            bg=FONDO
-        )
-
-        encabezado = tk.Frame(
-            pagina,
-            bg=AZUL,
-            height=70
-        )
-
-        encabezado.pack(
-            fill="x"
-        )
-
-        encabezado.pack_propagate(False)
-
-        tk.Label(
-            encabezado,
-            text=icono,
-            font=("Arial", 35),
-            bg=AZUL,
-            fg="white"
-        ).pack(
-            side="left",
-            padx=25
-        )
-
-        tk.Label(
-            encabezado,
-            text=titulo,
-            font=("Arial", 24, "bold"),
-            bg=AZUL,
-            fg="white"
-        ).pack(
-            side="left"
-        )
-
-        tk.Label(
-            pagina,
-            text=f"{titulo}\n\nPágina en construcción",
-            font=("Arial", 25, "bold"),
-            bg=FONDO,
-            fg="#0754C5",
-            justify="center"
-        ).pack(
-            expand=True
-        )
-
-        return pagina
+        return usuario(parent)
 
     # ========================================================
     # MOSTRAR INICIO AL ENTRAR
@@ -596,4 +635,9 @@ def crear_inicio(parent):
         boton_inicio
     )
 
+    # ========================================================
+    # DEVOLVER FRAME PRINCIPAL
+    # ========================================================
+
     return frame
+

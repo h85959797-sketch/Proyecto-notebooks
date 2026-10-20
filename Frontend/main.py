@@ -109,8 +109,7 @@ ventana.title("Protec - Inicio de sesión")
 # Tamaño de la ventana
 ventana.geometry("800x600")
 
-# Evita que el usuario cambie el tamaño y desacomode el diseño
-ventana.resizable(False, False)
+
 
 
 # =========================================================

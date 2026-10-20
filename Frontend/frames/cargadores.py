@@ -7,7 +7,7 @@ import requests
 # CONFIGURACIÓN
 # =========================================================
 
-API_URL = "http://localhost:3000/cargadores"
+API_URL = "http://localhost:3000/api/cargadores"
 
 
 # =========================================================

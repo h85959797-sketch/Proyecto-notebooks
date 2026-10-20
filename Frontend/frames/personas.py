@@ -7,7 +7,7 @@ import requests
 # CONFIGURACIÓN DE LA API
 # =========================================================
 
-API_URL = "http://localhost:3000/personas"
+API_URL = "http://localhost:3000/api/personas"
 
 
 # =========================================================
