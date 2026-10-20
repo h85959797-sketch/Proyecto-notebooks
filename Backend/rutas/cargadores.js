@@ -5,39 +5,37 @@ const router = express.Router();
 
 
 // ===============================
-// AGREGAR UN CLIENTE
-// POST /clientes
+// AGREGAR UN CARGADOR
+// POST /cargadores
 // ===============================
 router.post("/", async (req, res) => {
      const {
-          nombre,
-          apellido,
-          dni,
-          email,
-          telefono
+          num,
+          estado,
+          observaciones,
+          id_notebook
      } = req.body;
 
      try {
           const [resultado] = await pool.execute(
-               `INSERT INTO clientes (nombre, apellido, dni, email, telefono)
-                VALUES (?, ?, ?, ?, ?)`,
+               `INSERT INTO cargadores (num, estado, observaciones, id_notebook)
+                VALUES (?, ?, ?, ?)`,
                [
-                    nombre,
-                    apellido,
-                    dni,
-                    email,
-                    telefono
+                    num,
+                    estado,
+                    observaciones,
+                    id_notebook
                ]
           );
 
           return res.status(201).json({
-               mensaje: "Cliente agregado correctamente",
+               mensaje: "Cargador agregado correctamente",
                id: resultado.insertId
           });
 
      } catch (error) {
           return res.status(500).json({
-               error: "No se pudo agregar el cliente",
+               error: "No se pudo agregar el cargador",
                detalle: error.message
           });
      }
@@ -45,20 +43,20 @@ router.post("/", async (req, res) => {
 
 
 // ===============================
-// LEER TODOS LOS CLIENTES
-// GET /clientes
+// LEER TODOS LOS CARGADORES
+// GET /cargadores
 // ===============================
 router.get("/", async (req, res) => {
      try {
-          const [clientes] = await pool.execute(
-               `SELECT * FROM clientes`
+          const [cargadores] = await pool.execute(
+               `SELECT * FROM cargadores`
           );
 
-          return res.status(200).json(clientes);
+          return res.status(200).json(cargadores);
 
      } catch (error) {
           return res.status(500).json({
-               error: "No se pudieron obtener los clientes",
+               error: "No se pudieron obtener los cargadores",
                detalle: error.message
           });
      }
@@ -66,29 +64,29 @@ router.get("/", async (req, res) => {
 
 
 // ===============================
-// LEER UN CLIENTE POR ID
-// GET /clientes/1
+// LEER UN CARGADOR POR ID
+// GET /cargadores/1
 // ===============================
 router.get("/:id", async (req, res) => {
      const { id } = req.params;
 
      try {
-          const [clientes] = await pool.execute(
-               `SELECT * FROM clientes WHERE id_cliente = ?`,
+          const [cargadores] = await pool.execute(
+               `SELECT * FROM cargadores WHERE id_cargador = ?`,
                [id]
           );
 
-          if (clientes.length === 0) {
+          if (cargadores.length === 0) {
                return res.status(404).json({
-                    mensaje: "Cliente no encontrado"
+                    mensaje: "Cargador no encontrado"
                });
           }
 
-          return res.status(200).json(clientes[0]);
+          return res.status(200).json(cargadores[0]);
 
      } catch (error) {
           return res.status(500).json({
-               error: "No se pudo obtener el cliente",
+               error: "No se pudo obtener el cargador",
                detalle: error.message
           });
      }
@@ -96,48 +94,49 @@ router.get("/:id", async (req, res) => {
 
 
 // ===============================
-// EDITAR UN CLIENTE
-// PUT /clientes/1
+// EDITAR UN CARGADOR
+// PUT /cargadores/1
 // ===============================
 router.put("/:id", async (req, res) => {
      const { id } = req.params;
 
      const {
-          nombre,
-          apellido,
-          dni,
-          email,
-          telefono
+          num,
+          estado,
+          observaciones,
+          id_notebook
      } = req.body;
 
      try {
           const [resultado] = await pool.execute(
-               `UPDATE clientes
-                SET nombre = ?, apellido = ?, dni = ?, email = ?, telefono = ?
-                WHERE id_cliente = ?`,
+               `UPDATE cargadores
+                SET num = ?,
+                    estado = ?,
+                    observaciones = ?,
+                    id_notebook = ?
+                WHERE id_cargador = ?`,
                [
-                    nombre,
-                    apellido,
-                    dni,
-                    email,
-                    telefono,
+                    num,
+                    estado,
+                    observaciones,
+                    id_notebook,
                     id
                ]
           );
 
           if (resultado.affectedRows === 0) {
                return res.status(404).json({
-                    mensaje: "Cliente no encontrado"
+                    mensaje: "Cargador no encontrado"
                });
           }
 
           return res.status(200).json({
-               mensaje: "Cliente actualizado correctamente"
+               mensaje: "Cargador actualizado correctamente"
           });
 
      } catch (error) {
           return res.status(500).json({
-               error: "No se pudo actualizar el cliente",
+               error: "No se pudo actualizar el cargador",
                detalle: error.message
           });
      }
@@ -145,31 +144,31 @@ router.put("/:id", async (req, res) => {
 
 
 // ===============================
-// ELIMINAR UN CLIENTE
-// DELETE /clientes/1
+// ELIMINAR UN CARGADOR
+// DELETE /cargadores/1
 // ===============================
 router.delete("/:id", async (req, res) => {
      const { id } = req.params;
 
      try {
           const [resultado] = await pool.execute(
-               `DELETE FROM clientes WHERE id_cliente = ?`,
+               `DELETE FROM cargadores WHERE id_cargador = ?`,
                [id]
           );
 
           if (resultado.affectedRows === 0) {
                return res.status(404).json({
-                    mensaje: "Cliente no encontrado"
+                    mensaje: "Cargador no encontrado"
                });
           }
 
           return res.status(200).json({
-               mensaje: "Cliente eliminado correctamente"
+               mensaje: "Cargador eliminado correctamente"
           });
 
      } catch (error) {
           return res.status(500).json({
-               error: "No se pudo eliminar el cliente",
+               error: "No se pudo eliminar el cargador",
                detalle: error.message
           });
      }
@@ -177,4 +176,3 @@ router.delete("/:id", async (req, res) => {
 
 
 module.exports = router;
-

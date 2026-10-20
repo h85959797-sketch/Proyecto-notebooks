@@ -7,8 +7,8 @@ import requests
 # CONFIGURACIÓN
 # ============================================================
 
-API_USUARIO = "http://localhost:3000/usuario"
-API_PERSONAS = "http://localhost:3000/personas"
+API_USUARIO = "http://localhost:3000/api/usuarios"
+API_PERSONAS = "http://localhost:3000/api/personas"
 
 
 # ============================================================
@@ -44,11 +44,8 @@ def usuario(parent):
         bg=FONDO
     )
 
-    frame.pack(
-        fill="both",
-        expand=True
-    )
-
+    # NO se crea otro sidebar acá.
+    # El sidebar pertenece a inicio.py.
 
     # ========================================================
     # ESTILO DE TABLA
@@ -90,208 +87,6 @@ def usuario(parent):
         ]
     )
 
-
-    # ========================================================
-    # SIDEBAR
-    # ========================================================
-
-    sidebar = tk.Frame(
-        frame,
-        bg=AZUL_OSCURO,
-        width=275
-    )
-
-    sidebar.pack(
-        side="left",
-        fill="y"
-    )
-
-    sidebar.pack_propagate(False)
-
-
-    # ========================================================
-    # LOGO / NOMBRE
-    # ========================================================
-
-    logo_frame = tk.Frame(
-        sidebar,
-        bg=AZUL_OSCURO
-    )
-
-    logo_frame.pack(
-        fill="x",
-        pady=(20, 20)
-    )
-
-    tk.Label(
-        logo_frame,
-        text="⌂",
-        font=("Segoe UI Symbol", 34, "bold"),
-        fg=BLANCO,
-        bg=AZUL_OSCURO
-    ).pack(
-        side="left",
-        padx=(25, 15)
-    )
-
-    tk.Label(
-        logo_frame,
-        text="PROTEC",
-        font=("Segoe UI", 17, "bold"),
-        fg=BLANCO,
-        bg=AZUL_OSCURO
-    ).pack(
-        side="left"
-    )
-
-
-    # ========================================================
-    # BOTONES SIDEBAR
-    # ========================================================
-
-    def crear_boton_menu(texto, icono, seleccionado=False):
-
-        boton = tk.Button(
-            sidebar,
-            text=f"{icono}    {texto}",
-            font=("Segoe UI", 11),
-            anchor="w",
-            padx=20,
-            fg=BLANCO,
-            bg=AZUL_CLARO if seleccionado else AZUL_OSCURO,
-            activebackground=AZUL_SELECCION,
-            activeforeground=BLANCO,
-            relief="flat",
-            bd=0,
-            cursor="hand2"
-        )
-
-        boton.pack(
-            fill="x",
-            padx=10,
-            pady=2,
-            ipady=9
-        )
-
-        return boton
-
-
-    crear_boton_menu(
-        "Inicio",
-        "⌂"
-    )
-
-    crear_boton_menu(
-        "Personas",
-        "♟"
-    )
-
-    crear_boton_menu(
-        "Notebooks",
-        "▣"
-    )
-
-    crear_boton_menu(
-        "Préstamos y\ndevoluciones",
-        "↔"
-    )
-
-    crear_boton_menu(
-        "Cargadores",
-        "⚡"
-    )
-
-    crear_boton_menu(
-        "Usuario",
-        "⚙",
-        True
-    )
-
-
-    # ========================================================
-    # ESPACIO DEL SIDEBAR
-    # ========================================================
-
-    tk.Frame(
-        sidebar,
-        bg=AZUL_OSCURO
-    ).pack(
-        fill="both",
-        expand=True
-    )
-
-
-    # ========================================================
-    # BOTONES ATRÁS / ADELANTE
-    # ========================================================
-
-    separador = tk.Frame(
-        sidebar,
-        bg=AZUL_OSCURO,
-        height=2
-    )
-
-    separador.pack(
-        fill="x",
-        padx=25,
-        pady=(0, 15)
-    )
-
-    tk.Frame(
-        sidebar,
-        bg="#2B8CF0",
-        height=2
-    ).pack(
-        fill="x",
-        padx=25,
-        pady=(0, 15)
-    )
-
-
-    navegacion = tk.Frame(
-        sidebar,
-        bg=AZUL_OSCURO
-    )
-
-    navegacion.pack(
-        fill="x",
-        pady=(0, 18)
-    )
-
-
-    tk.Button(
-        navegacion,
-        text="‹",
-        font=("Segoe UI", 25, "bold"),
-        fg=BLANCO,
-        bg=AZUL,
-        activebackground=AZUL_CLARO,
-        relief="flat",
-        bd=0,
-        cursor="hand2",
-        width=3
-    ).pack(
-        side="left",
-        padx=(35, 8)
-    )
-
-
-    tk.Button(
-        navegacion,
-        text="›",
-        font=("Segoe UI", 25, "bold"),
-        fg=BLANCO,
-        bg=AZUL,
-        activebackground=AZUL_CLARO,
-        relief="flat",
-        bd=0,
-        cursor="hand2",
-        width=3
-    ).pack(
-        side="left"
-    )
-
-
     # ========================================================
     # CONTENIDO PRINCIPAL
     # ========================================================
@@ -302,13 +97,11 @@ def usuario(parent):
     )
 
     contenido.pack(
-        side="left",
         fill="both",
         expand=True,
         padx=15,
         pady=12
     )
-
 
     # ========================================================
     # ENCABEZADO
@@ -324,7 +117,6 @@ def usuario(parent):
         pady=(0, 10)
     )
 
-
     tk.Label(
         encabezado,
         text="⚙",
@@ -337,7 +129,6 @@ def usuario(parent):
         pady=8
     )
 
-
     textos_encabezado = tk.Frame(
         encabezado,
         bg=AZUL_TITULO
@@ -347,7 +138,6 @@ def usuario(parent):
         side="left",
         pady=12
     )
-
 
     tk.Label(
         textos_encabezado,
@@ -359,7 +149,6 @@ def usuario(parent):
         anchor="w"
     )
 
-
     tk.Label(
         textos_encabezado,
         text="Administración de los usuarios del sistema.",
@@ -369,7 +158,6 @@ def usuario(parent):
     ).pack(
         anchor="w"
     )
-
 
     # ========================================================
     # PANEL DATOS
@@ -387,8 +175,9 @@ def usuario(parent):
         pady=(0, 10)
     )
 
-
-    # Título del panel
+    # ========================================================
+    # TÍTULO DEL PANEL
+    # ========================================================
 
     tk.Label(
         panel_datos,
@@ -403,7 +192,6 @@ def usuario(parent):
         pady=1,
         ipady=8
     )
-
 
     # ========================================================
     # FORMULARIO
@@ -420,17 +208,14 @@ def usuario(parent):
         pady=15
     )
 
-
     for columna in range(4):
-
         formulario.columnconfigure(
             columna,
             weight=1
         )
 
-
     # ========================================================
-    # USUARIO
+    # NOMBRE DE USUARIO
     # ========================================================
 
     tk.Label(
@@ -445,7 +230,6 @@ def usuario(parent):
         sticky="w",
         padx=5
     )
-
 
     entrada_usuario = tk.Entry(
         formulario,
@@ -464,7 +248,6 @@ def usuario(parent):
         ipady=7
     )
 
-
     # ========================================================
     # CONTRASEÑA
     # ========================================================
@@ -481,7 +264,6 @@ def usuario(parent):
         sticky="w",
         padx=5
     )
-
 
     entrada_contrasena = tk.Entry(
         formulario,
@@ -501,7 +283,6 @@ def usuario(parent):
         ipady=7
     )
 
-
     # ========================================================
     # ROL
     # ========================================================
@@ -518,7 +299,6 @@ def usuario(parent):
         sticky="w",
         padx=5
     )
-
 
     combo_rol = ttk.Combobox(
         formulario,
@@ -540,7 +320,6 @@ def usuario(parent):
         ipady=5
     )
 
-
     # ========================================================
     # PERSONA
     # ========================================================
@@ -558,7 +337,6 @@ def usuario(parent):
         padx=5
     )
 
-
     combo_persona = ttk.Combobox(
         formulario,
         state="readonly",
@@ -574,13 +352,16 @@ def usuario(parent):
         ipady=5
     )
 
-
     # ========================================================
-    # LISTA DE PERSONAS
+    # VARIABLES
     # ========================================================
 
     personas = []
+    usuarios = []
 
+    # ========================================================
+    # CARGAR PERSONAS
+    # ========================================================
 
     def cargar_personas():
 
@@ -594,6 +375,12 @@ def usuario(parent):
             )
 
             if respuesta.status_code != 200:
+
+                messagebox.showerror(
+                    "Error",
+                    "No se pudieron obtener las personas."
+                )
+
                 return
 
             personas = respuesta.json()
@@ -622,16 +409,22 @@ def usuario(parent):
 
             combo_persona["values"] = nombres
 
-        except Exception as error:
+        except requests.exceptions.ConnectionError:
 
-            print(
-                "No se pudieron cargar las personas:",
-                error
+            messagebox.showerror(
+                "Error de conexión",
+                "No se pudo conectar con el servidor."
             )
 
+        except Exception as error:
+
+            messagebox.showerror(
+                "Error",
+                str(error)
+            )
 
     # ========================================================
-    # OBTENER ID DE PERSONA
+    # OBTENER ID PERSONA
     # ========================================================
 
     def obtener_id_persona():
@@ -651,9 +444,8 @@ def usuario(parent):
 
             return None
 
-
     # ========================================================
-    # BOTONES
+    # PANEL DE BOTONES
     # ========================================================
 
     botones = tk.Frame(
@@ -667,11 +459,11 @@ def usuario(parent):
         pady=(0, 15)
     )
 
+    # ========================================================
+    # FUNCIÓN CREAR BOTÓN
+    # ========================================================
 
-    def crear_boton(
-        texto,
-        comando
-    ):
+    def crear_boton(texto, comando):
 
         return tk.Button(
             botones,
@@ -686,63 +478,6 @@ def usuario(parent):
             bd=0,
             cursor="hand2"
         )
-
-
-    boton_agregar = crear_boton(
-        "＋  Agregar",
-        lambda: agregar_usuario()
-    )
-
-    boton_agregar.pack(
-        side="left",
-        fill="x",
-        expand=True,
-        padx=5,
-        ipady=9
-    )
-
-
-    boton_modificar = crear_boton(
-        "✎  Modificar",
-        lambda: modificar_usuario()
-    )
-
-    boton_modificar.pack(
-        side="left",
-        fill="x",
-        expand=True,
-        padx=5,
-        ipady=9
-    )
-
-
-    boton_eliminar = crear_boton(
-        "▣  Eliminar",
-        lambda: eliminar_usuario()
-    )
-
-    boton_eliminar.pack(
-        side="left",
-        fill="x",
-        expand=True,
-        padx=5,
-        ipady=9
-    )
-
-
-    boton_limpiar = crear_boton(
-        "⟳  Limpiar",
-        lambda: limpiar()
-    )
-
-    boton_limpiar.pack(
-        side="left",
-        fill="x",
-        expand=True,
-        padx=5,
-        ipady=9
-    )
-
 
     # ========================================================
     # PANEL LISTADO
@@ -760,7 +495,6 @@ def usuario(parent):
         expand=True
     )
 
-
     tk.Label(
         panel_lista,
         text="Listado de Usuarios",
@@ -774,7 +508,6 @@ def usuario(parent):
         pady=1,
         ipady=8
     )
-
 
     # ========================================================
     # TABLA
@@ -792,14 +525,12 @@ def usuario(parent):
         pady=12
     )
 
-
     columnas = (
         "id",
         "usuario",
         "rol",
         "persona"
     )
-
 
     tabla = ttk.Treeview(
         tabla_frame,
@@ -808,7 +539,6 @@ def usuario(parent):
         style="Usuario.Treeview",
         selectmode="browse"
     )
-
 
     tabla.heading(
         "id",
@@ -829,7 +559,6 @@ def usuario(parent):
         "persona",
         text="Persona"
     )
-
 
     tabla.column(
         "id",
@@ -855,18 +584,15 @@ def usuario(parent):
         anchor="w"
     )
 
-
     scrollbar = ttk.Scrollbar(
         tabla_frame,
         orient="vertical",
         command=tabla.yview
     )
 
-
     tabla.configure(
         yscrollcommand=scrollbar.set
     )
-
 
     tabla.pack(
         side="left",
@@ -878,7 +604,6 @@ def usuario(parent):
         side="right",
         fill="y"
     )
-
 
     # ========================================================
     # TOTAL
@@ -900,13 +625,71 @@ def usuario(parent):
         ipady=8
     )
 
-
     # ========================================================
-    # VARIABLES DE DATOS
+    # MOSTRAR USUARIOS
     # ========================================================
 
-    usuarios = []
+    def mostrar_usuarios():
 
+        for item in tabla.get_children():
+
+            tabla.delete(item)
+
+        for usuario_data in usuarios:
+
+            id_usuario = usuario_data.get(
+                "id_usuario"
+            )
+
+            nombre_usuario = usuario_data.get(
+                "nombre_usuario",
+                ""
+            )
+
+            rol = usuario_data.get(
+                "rol",
+                ""
+            )
+
+            id_persona = usuario_data.get(
+                "id_persona",
+                ""
+            )
+
+            nombre_persona = ""
+
+            for persona in personas:
+
+                if str(
+                    persona.get("id_persona")
+                ) == str(id_persona):
+
+                    nombre_persona = (
+                        f"{persona.get('nombre', '')} "
+                        f"{persona.get('apellido', '')}"
+                    ).strip()
+
+                    break
+
+            if not nombre_persona:
+
+                nombre_persona = f"ID {id_persona}"
+
+            tabla.insert(
+                "",
+                tk.END,
+                iid=str(id_usuario),
+                values=(
+                    id_usuario,
+                    nombre_usuario,
+                    rol,
+                    nombre_persona
+                )
+            )
+
+        total_label.config(
+            text=f"Total de usuarios: {len(usuarios)}"
+        )
 
     # ========================================================
     # CARGAR USUARIOS
@@ -951,79 +734,6 @@ def usuario(parent):
                 str(error)
             )
 
-
-    # ========================================================
-    # MOSTRAR USUARIOS
-    # ========================================================
-
-    def mostrar_usuarios():
-
-        for item in tabla.get_children():
-
-            tabla.delete(item)
-
-
-        for usuario_data in usuarios:
-
-            id_usuario = usuario_data.get(
-                "id_usuario"
-            )
-
-            nombre_usuario = usuario_data.get(
-                "nombre_usuario",
-                ""
-            )
-
-            rol = usuario_data.get(
-                "rol",
-                ""
-            )
-
-            id_persona = usuario_data.get(
-                "id_persona",
-                ""
-            )
-
-
-            nombre_persona = ""
-
-            for persona in personas:
-
-                if str(
-                    persona.get("id_persona")
-                ) == str(id_persona):
-
-                    nombre_persona = (
-                        f"{persona.get('nombre', '')} "
-                        f"{persona.get('apellido', '')}"
-                    ).strip()
-
-                    break
-
-
-            if not nombre_persona:
-
-                nombre_persona = f"ID {id_persona}"
-
-
-            tabla.insert(
-                "",
-                tk.END,
-                iid=str(id_usuario),
-                values=(
-                    id_usuario,
-                    nombre_usuario,
-                    rol,
-                    nombre_persona
-                )
-            )
-
-
-        total_label.config(
-            text=f"Total de usuarios: {len(usuarios)}"
-        )
-
-
     # ========================================================
     # LIMPIAR
     # ========================================================
@@ -1052,7 +762,6 @@ def usuario(parent):
                 seleccion
             )
 
-
     # ========================================================
     # AGREGAR
     # ========================================================
@@ -1064,7 +773,6 @@ def usuario(parent):
         rol = combo_rol.get().strip()
         id_persona = obtener_id_persona()
 
-
         if not nombre_usuario:
 
             messagebox.showwarning(
@@ -1073,7 +781,6 @@ def usuario(parent):
             )
 
             return
-
 
         if not contrasena:
 
@@ -1084,7 +791,6 @@ def usuario(parent):
 
             return
 
-
         if not rol:
 
             messagebox.showwarning(
@@ -1093,7 +799,6 @@ def usuario(parent):
             )
 
             return
-
 
         if not id_persona:
 
@@ -1104,14 +809,12 @@ def usuario(parent):
 
             return
 
-
         datos = {
             "nombre_usuario": nombre_usuario,
             "contrasena": contrasena,
             "rol": rol,
             "id_persona": id_persona
         }
-
 
         try:
 
@@ -1120,7 +823,6 @@ def usuario(parent):
                 json=datos,
                 timeout=5
             )
-
 
             if respuesta.status_code == 201:
 
@@ -1135,18 +837,20 @@ def usuario(parent):
             else:
 
                 try:
+
                     mensaje = respuesta.json().get(
                         "detalle",
                         respuesta.text
                     )
+
                 except:
+
                     mensaje = respuesta.text
 
                 messagebox.showerror(
                     "Error",
                     mensaje
                 )
-
 
         except requests.exceptions.ConnectionError:
 
@@ -1162,7 +866,6 @@ def usuario(parent):
                 str(error)
             )
 
-
     # ========================================================
     # MODIFICAR
     # ========================================================
@@ -1170,7 +873,6 @@ def usuario(parent):
     def modificar_usuario():
 
         seleccion = tabla.selection()
-
 
         if not seleccion:
 
@@ -1181,14 +883,12 @@ def usuario(parent):
 
             return
 
-
         id_usuario = seleccion[0]
 
         nombre_usuario = entrada_usuario.get().strip()
         contrasena = entrada_contrasena.get().strip()
         rol = combo_rol.get().strip()
         id_persona = obtener_id_persona()
-
 
         if not nombre_usuario:
 
@@ -1199,7 +899,6 @@ def usuario(parent):
 
             return
 
-
         if not contrasena:
 
             messagebox.showwarning(
@@ -1208,7 +907,6 @@ def usuario(parent):
             )
 
             return
-
 
         if not rol:
 
@@ -1219,7 +917,6 @@ def usuario(parent):
 
             return
 
-
         if not id_persona:
 
             messagebox.showwarning(
@@ -1229,14 +926,12 @@ def usuario(parent):
 
             return
 
-
         datos = {
             "nombre_usuario": nombre_usuario,
             "contrasena": contrasena,
             "rol": rol,
             "id_persona": id_persona
         }
-
 
         try:
 
@@ -1245,7 +940,6 @@ def usuario(parent):
                 json=datos,
                 timeout=5
             )
-
 
             if respuesta.status_code == 200:
 
@@ -1260,18 +954,20 @@ def usuario(parent):
             else:
 
                 try:
+
                     mensaje = respuesta.json().get(
                         "detalle",
                         respuesta.text
                     )
+
                 except:
+
                     mensaje = respuesta.text
 
                 messagebox.showerror(
                     "Error",
                     mensaje
                 )
-
 
         except requests.exceptions.ConnectionError:
 
@@ -1287,7 +983,6 @@ def usuario(parent):
                 str(error)
             )
 
-
     # ========================================================
     # ELIMINAR
     # ========================================================
@@ -1295,7 +990,6 @@ def usuario(parent):
     def eliminar_usuario():
 
         seleccion = tabla.selection()
-
 
         if not seleccion:
 
@@ -1306,20 +1000,15 @@ def usuario(parent):
 
             return
 
-
         id_usuario = seleccion[0]
-
 
         confirmar = messagebox.askyesno(
             "Eliminar usuario",
             "¿Seguro que querés eliminar este usuario?"
         )
 
-
         if not confirmar:
-
             return
-
 
         try:
 
@@ -1327,7 +1016,6 @@ def usuario(parent):
                 f"{API_USUARIO}/{id_usuario}",
                 timeout=5
             )
-
 
             if respuesta.status_code == 200:
 
@@ -1342,18 +1030,20 @@ def usuario(parent):
             else:
 
                 try:
+
                     mensaje = respuesta.json().get(
                         "detalle",
                         respuesta.text
                     )
+
                 except:
+
                     mensaje = respuesta.text
 
                 messagebox.showerror(
                     "Error",
                     mensaje
                 )
-
 
         except requests.exceptions.ConnectionError:
 
@@ -1369,25 +1059,20 @@ def usuario(parent):
                 str(error)
             )
 
-
     # ========================================================
-    # SELECCIONAR USUARIO DE LA TABLA
+    # SELECCIONAR USUARIO
     # ========================================================
 
     def seleccionar_usuario(event):
 
         seleccion = tabla.selection()
 
-
         if not seleccion:
             return
 
-
         id_usuario = seleccion[0]
 
-
         usuario_seleccionado = None
-
 
         for usuario_data in usuarios:
 
@@ -1398,12 +1083,12 @@ def usuario(parent):
                 usuario_seleccionado = usuario_data
                 break
 
-
         if not usuario_seleccionado:
             return
 
-
-        # Usuario
+        # ----------------------------------------------------
+        # USUARIO
+        # ----------------------------------------------------
 
         entrada_usuario.delete(
             0,
@@ -1418,8 +1103,9 @@ def usuario(parent):
             )
         )
 
-
-        # Contraseña
+        # ----------------------------------------------------
+        # CONTRASEÑA
+        # ----------------------------------------------------
 
         entrada_contrasena.delete(
             0,
@@ -1434,8 +1120,9 @@ def usuario(parent):
             )
         )
 
-
-        # Rol
+        # ----------------------------------------------------
+        # ROL
+        # ----------------------------------------------------
 
         combo_rol.set(
             usuario_seleccionado.get(
@@ -1444,13 +1131,13 @@ def usuario(parent):
             )
         )
 
-
-        # Persona
+        # ----------------------------------------------------
+        # PERSONA
+        # ----------------------------------------------------
 
         id_persona = usuario_seleccionado.get(
             "id_persona"
         )
-
 
         for persona in personas:
 
@@ -1474,12 +1161,66 @@ def usuario(parent):
 
                 break
 
-
     tabla.bind(
         "<<TreeviewSelect>>",
         seleccionar_usuario
     )
 
+    # ========================================================
+    # CREAR BOTONES
+    # ========================================================
+
+    boton_agregar = crear_boton(
+        "＋  Agregar",
+        agregar_usuario
+    )
+
+    boton_agregar.pack(
+        side="left",
+        fill="x",
+        expand=True,
+        padx=5,
+        ipady=9
+    )
+
+    boton_modificar = crear_boton(
+        "✎  Modificar",
+        modificar_usuario
+    )
+
+    boton_modificar.pack(
+        side="left",
+        fill="x",
+        expand=True,
+        padx=5,
+        ipady=9
+    )
+
+    boton_eliminar = crear_boton(
+        "▣  Eliminar",
+        eliminar_usuario
+    )
+
+    boton_eliminar.pack(
+        side="left",
+        fill="x",
+        expand=True,
+        padx=5,
+        ipady=9
+    )
+
+    boton_limpiar = crear_boton(
+        "⟳  Limpiar",
+        limpiar
+    )
+
+    boton_limpiar.pack(
+        side="left",
+        fill="x",
+        expand=True,
+        padx=5,
+        ipady=9
+    )
 
     # ========================================================
     # CARGA INICIAL
@@ -1487,7 +1228,6 @@ def usuario(parent):
 
     cargar_personas()
     cargar_usuarios()
-
 
     # ========================================================
     # RETORNAR FRAME

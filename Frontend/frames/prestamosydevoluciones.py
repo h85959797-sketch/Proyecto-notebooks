@@ -8,9 +8,9 @@ import requests
 # CONFIGURACIÓN
 # ============================================================
 
-API_PRESTAMOS = "http://localhost:3000/prestamosydevoluciones"
-API_PERSONAS = "http://localhost:3000/personas"
-API_NOTEBOOKS = "http://localhost:3000/notebooks"
+API_PRESTAMOS = "http://localhost:3000/api/prestamosydevoluciones"
+API_PERSONAS = "http://localhost:3000/api/personas"
+API_NOTEBOOKS = "http://localhost:3000/api/notebooks"
 
 
 # ============================================================
@@ -49,12 +49,6 @@ def prestamosydevoluciones(parent):
         parent,
         bg=FONDO
     )
-
-    frame.pack(
-        fill="both",
-        expand=True
-    )
-
 
     # ========================================================
     # ESTILOS
@@ -102,149 +96,6 @@ def prestamosydevoluciones(parent):
     prestamos = []
     personas = []
     notebooks = []
-
-
-    # ========================================================
-    # SIDEBAR
-    # ========================================================
-
-    sidebar = tk.Frame(
-        frame,
-        bg=AZUL_OSCURO,
-        width=165
-    )
-
-    sidebar.pack(
-        side="left",
-        fill="y"
-    )
-
-    sidebar.pack_propagate(False)
-
-
-    # --------------------------------------------------------
-    # TÍTULO / LOGO
-    # --------------------------------------------------------
-
-    tk.Label(
-        sidebar,
-        text="▣",
-        font=("Segoe UI", 35),
-        fg=BLANCO,
-        bg=AZUL_OSCURO
-    ).pack(
-        pady=(25, 0)
-    )
-
-    tk.Label(
-        sidebar,
-        text="PROTEC",
-        font=("Segoe UI", 15, "bold"),
-        fg=BLANCO,
-        bg=AZUL_OSCURO
-    ).pack(
-        pady=(0, 25)
-    )
-
-
-    # ========================================================
-    # BOTONES SIDEBAR
-    # ========================================================
-
-    def boton_sidebar(texto, simbolo):
-
-        boton = tk.Button(
-            sidebar,
-            text=f"{simbolo}  {texto}",
-            font=("Segoe UI", 9, "bold"),
-            anchor="w",
-            padx=12,
-            fg=BLANCO,
-            bg=AZUL_OSCURO,
-            activebackground=AZUL_CLARO,
-            activeforeground=BLANCO,
-            relief="flat",
-            bd=0,
-            cursor="hand2"
-        )
-
-        boton.pack(
-            fill="x",
-            padx=8,
-            pady=3,
-            ipady=7
-        )
-
-        return boton
-
-
-    boton_sidebar("Inicio", "⌂")
-    boton_sidebar("Personas", "♟")
-    boton_sidebar("Notebooks", "▣")
-    boton_sidebar("Préstamos y\ndevoluciones", "↔")
-    boton_sidebar("Cargadores", "⚡")
-    boton_sidebar("Usuario", "⚙")
-
-
-    # ========================================================
-    # PARTE INFERIOR SIDEBAR
-    # ========================================================
-
-    espacio = tk.Frame(
-        sidebar,
-        bg=AZUL_OSCURO
-    )
-
-    espacio.pack(
-        fill="both",
-        expand=True
-    )
-
-
-    # ========================================================
-    # BOTONES ATRÁS / ADELANTE
-    # ========================================================
-
-    navegacion = tk.Frame(
-        sidebar,
-        bg=AZUL_OSCURO
-    )
-
-    navegacion.pack(
-        side="bottom",
-        fill="x",
-        pady=12
-    )
-
-    tk.Button(
-        navegacion,
-        text="<",
-        font=("Segoe UI", 13, "bold"),
-        fg=BLANCO,
-        bg=AZUL,
-        activebackground=AZUL_CLARO,
-        relief="flat",
-        bd=0,
-        width=4
-    ).pack(
-        side="left",
-        padx=(15, 5)
-    )
-
-    tk.Button(
-        navegacion,
-        text=">",
-        font=("Segoe UI", 13, "bold"),
-        fg=BLANCO,
-        bg=AZUL,
-        activebackground=AZUL_CLARO,
-        relief="flat",
-        bd=0,
-        width=4
-    ).pack(
-        side="left",
-        padx=5
-    )
 
 
     # ========================================================
