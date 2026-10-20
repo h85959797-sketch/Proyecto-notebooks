@@ -1,5 +1,9 @@
 import tkinter as tk
 from frames.personas import crear_personas
+from frames.notebooks import crear_notebooks
+from frames.cargadores import crear_cargadores
+from frames.prestamosydevoluciones import crear_prestamosydevoluciones
+from frames.usuario import crear_usuario
 
 
 # ============================================================
@@ -50,7 +54,17 @@ def crear_inicio(parent):
         fill="both",
         expand=True
     )
+   def mostrar_frame(funcion):
 
+       for widget in contenido.winfo_children():
+           widget.destroy()
+
+       nuevo_frame = funcion(contenido)
+
+       nuevo_frame.pack(
+           fill="both",
+           expand=True
+       )
     # ========================================================
     # MENÚ LATERAL
     # ========================================================
